@@ -1,123 +1,75 @@
-// async function main() {
 
-//     const timeChartCanvas = document.querySelector('#time-chart');
-//     const highestPriceChartCanvas = document.querySelector('#highest-price-chart');
-//     const averagePriceChartCanvas = document.querySelector('#average-price-chart');
-
-//     const response = await fetch('https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=5bc65bba023e4b57acc94a7c293ea666')
-//     const result = await response.json()
-//     const { GME, MSFT, DIS, BNTX } = result;
-
-//     const stocks = [GME, MSFT, DIS, BNTX];
-
-//     // const { GME, MSFT, DIS, BNTX } = mockData;
-
-//     // const stocks = [GME, MSFT, DIS, BNTX];
-//     stocks.forEach(stock => stock.values.reverse())
-// }
-
-
-// function getColor(stock) {
-//     if (stock === "GME") {
-//         return 'rgba(61, 161, 61, 0.7)'
-//     }
-//     if (stock === "MSFT") {
-//         return 'rgba(209, 4, 25, 0.7)'
-//     }
-//     if (stock === "DIS") {
-//         return 'rgba(18, 4, 209, 0.7)'
-//     }
-//     if (stock === "BNTX") {
-//         return 'rgba(166, 43, 158, 0.7)'
-//     }
-// }
-
-// new Chart(timeChartCanvas.getContext('2d'), {
-//     type: 'line',
-//     data: {
-//         labels: stocks[0].values.map(value => value.datetime),
-//         datasets: stocks.map(stock => ({
-//             label: stock.meta.symbol,
-//             backgroundColor: getColor(stock.meta.symbol),
-//             borderColor: getColor(stock.meta.symbol),
-//             data: stock.values.map(value => parseFloat(value.high))
-//         }))
-//     }
-// });
-// new Chart(timeChartCanvas.getContext('2d'), {
-//     type: 'line',
-//     data: {
-//         labels: stocks[0].values.map(value => value.datetime),
-//         datasets: stocks.map( stock => ({
-//             label: stock.meta.symbol,
-//             data: stock.values.map(value => parseFloat(value.high)),
-//             backgroundColor:  getColor(stock.meta.symbol),
-//             borderColor: getColor(stock.meta.symbol),
-//         }))
-//     }
-// });
-
-// stocks.forEach( stock => stock.values.reverse())
-
-// // Time Chart
-// new Chart(timeChartCanvas.getContext('2d'), {
-//     type: 'line',
-//     data: {
-//         labels: stocks[0].values.reverse().map(value => value.datetime),
-//         datasets: stocks.map(stock => ({
-//             label: stock.meta.symbol,
-//             data: stock.values.reverse().map(value => parseFloat(value.high)),
-//             backgroundColor: getColor(stock.meta.symbol),
-//             borderColor: getColor(stock.meta.symbol),
-//         }))
-//     }
-// });
-
-// main()
-function getColor(stock) {
-    if (stock === "GME") {
-        return 'rgba(61, 161, 61, 0.7)'
-    }
-    if (stock === "MSFT") {
-        return 'rgba(209, 4, 25, 0.7)'
-    }
-    if (stock === "DIS") {
-        return 'rgba(18, 4, 209, 0.7)'
-    }
-    if (stock === "BNTX") {
-        return 'rgba(166, 43, 158, 0.7)'
-    }
-}
-
+// Feteching Request
+// Adding API keys
+// Adding symbols
 async function main() {
     const timeChartCanvas = document.querySelector('#time-chart');
     const highestPriceChartCanvas = document.querySelector('#highest-price-chart');
     const averagePriceChartCanvas = document.querySelector('#average-price-chart');
 
     const response = await fetch('https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=5bc65bba023e4b57acc94a7c293ea666')
-
     const result = await response.json()
 
     const { GME, MSFT, DIS, BNTX } = result;
-
+    // Changing oject to Array
     const stocks = [GME, MSFT, DIS, BNTX];
 
+
+    // const { GME, MSFT, DIS, BNTX } = mockData;
+
+    // const stocks = [GME, MSFT, DIS, BNTX];
+
+    // Reversing date and values to make it correct
     stocks.forEach(stock => stock.values.reverse())
 
-    // Time Chart
+
+    // Checking chartjs installed
+    console.log(Chart)
+
+    
+    // new Chart(timeChartCanvas.getContext('2d'), {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    //         datasets: [{
+    //             label: '# of Votes',
+    //             data: [12, 19, 3, 5, 2, 3],
+    //             backgroundColor:  'orange',
+    //             borderColor: 'blue'
+    //         }]
+    //     }
+    // })
+
     new Chart(timeChartCanvas.getContext('2d'), {
         type: 'line',
         data: {
             labels: stocks[0].values.map(value => value.datetime),
             datasets: stocks.map(stock => ({
                 label: stock.meta.symbol,
+                data: stock.values.map(value => parseFloat(value.high)),
                 backgroundColor: getColor(stock.meta.symbol),
                 borderColor: getColor(stock.meta.symbol),
-                data: stock.values.map(value => parseFloat(value.high))
             }))
         }
     });
 
+    console.log(stocks[0].values)
+
+
+    function getColor(stock) {
+        if (stock === "GME") {
+            return 'red'
+        }
+        if (stock === "MSFT") {
+            return 'blue'
+        }
+        if (stock === "DIS") {
+            return 'green'
+        }
+        if (stock === "BNTX") {
+            return 'purple'
+        }
+    }
     // High Chart
     new Chart(highestPriceChartCanvas.getContext('2d'), {
         type: 'bar',
@@ -178,3 +130,6 @@ function calculateAverage(values) {
 }
 
 main()
+
+
+
